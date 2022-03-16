@@ -19,10 +19,10 @@ local on_attach = function (client, bufnr)
 
   -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-  -- autoformat on save, but sync so there's an awful delay
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]]
-  end
+  -- -- autoformat on save, but sync so there's an awful delay
+  -- if client.resolved_capabilities.document_formatting then
+  --   vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)]]
+  -- end
 end
 
 -- nvim_lsp.kotlin_language_server.setup{
