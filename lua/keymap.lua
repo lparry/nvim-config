@@ -76,3 +76,4 @@ k.imap('<ESC>', '<ESC>l')
 vim.o.updatetime = 250
 vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {scope = "line", border = "single", focus=false})]]
 
+k.nmap('<Leader>r', ':Rufo<cr>')

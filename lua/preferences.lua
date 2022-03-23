@@ -87,16 +87,6 @@ vim.o.inccommand = "split"
 vim.cmd [[
   colorscheme jellybeans-nvim
 
-  function! RestoreRegister()
-      let @" = s:restore_reg
-      return ''
-  endfunction
-  function! PasteOver()
-       let s:restore_reg = @"
-       return "p@=RestoreRegister()\<cr>"
-  endfunction
-  vnoremap <silent> <expr> p PasteOver()
-
   " corrections and abbreviations
   iabbrev didnt didn't
   iabbrev dont don't
