@@ -1,5 +1,9 @@
 local nvim_lsp = require('lspconfig')
 
+local coq = require("coq") -- add this
+
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 -- vim.lsp.set_log_level("debug")
 
 local on_attach = function (client, bufnr)
@@ -35,20 +39,23 @@ end
 --   on_attach = on_attach,
 -- }
 
-nvim_lsp.sorbet.setup{
+nvim_lsp.sorbet.setup(coq.lsp_ensure_capabilities({
   cmd = { "srb", "tc", "--lsp", "-vvv" },
   root_dir = nvim_lsp.util.root_pattern("sorbet"),
   on_attach = on_attach,
-}
+  -- capabilities = capabilities,
+}))
 
-nvim_lsp.flow.setup{
+nvim_lsp.flow.setup(coq.lsp_ensure_capabilities({
   on_attach = on_attach,
   on_new_config = function (new_config, new_root_dir)
     new_config.cmd = { new_root_dir .. "/node_modules/.bin/flow", "lsp" }
-  end
-}
+  end,
+  -- capabilities = capabilities,
+}))
 
-nvim_lsp.tsserver.setup{
+nvim_lsp.tsserver.setup(coq.lsp_ensure_capabilities({
+
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
   on_attach = function (client, bufnr)
     client.resolved_capabilities.document_formatting = false
@@ -56,23 +63,24 @@ nvim_lsp.tsserver.setup{
 
     on_attach(client, bufnr)
   end,
-}
+  -- capabilities = capabilities,
+}))
 
-nvim_lsp.rls.setup{
+nvim_lsp.rls.setup({
   on_attach = function (client, bufnr)
     on_attach(client, bufnr)
 
     client.resolved_capabilities.document_formatting = true
     client.resolved_capabilities.document_range_formatting = true
   end,
-}
+})
 
 nvim_lsp.sourcekit.setup {
   on_attach = on_attach,
 }
 
 nvim_lsp.diagnosticls.setup {
-  filetypes = { "ruby", "javascript", "typescript", "typescriptreact", "sh", "bash" },
+  filetypes = { "ruby", "javascript", "typescript", "typescriptreact", "sh", "bash", "zsh" },
   -- this needs to be kept up to date with all the rootPatterns below
   root_dir = nvim_lsp.util.root_pattern(".git"),
   on_attach = function (client, bufnr)
@@ -89,6 +97,7 @@ nvim_lsp.diagnosticls.setup {
       -- ruby = { "rubocop", "prettier" },
       sh = { "shellcheck" },
       bash = { "shellcheck" },
+      zsh = { "shellcheck" },
     },
     formatFiletypes = {
       javascript = 'prettier',

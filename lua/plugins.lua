@@ -117,9 +117,9 @@ return require('packer').startup(function()
     requires = '/usr/local/opt/fzf',
     config = function()
       local k = require('util.keymap')
-      k.nnoremap('<leader>b', ':Buffers<CR>', { silent = true })
-      k.nnoremap('<leader>F', ':Files<CR>', { silent = true })
-      k.nnoremap('<leader>f', ':GitFiles<CR>', { silent = true })
+      k.nnoremap('<leader>bu', ':Buffers<CR>', { silent = true })
+      k.nnoremap('<leader>FI', ':Files<CR>', { silent = true })
+      k.nnoremap('<leader>fi', ':GitFiles<CR>', { silent = true })
       k.nnoremap('<leader>rw', ':exec "Rg " . expand("<cword>")<cr>', { silent = true })
       k.nnoremap('<leader>rg', ':Rg ')
     end,
@@ -140,69 +140,100 @@ return require('packer').startup(function()
   }
 
   use {
-    'hrsh7th/nvim-cmp',
+    'ms-jpq/coq_nvim',
+    branch = 'coq',
     requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/nvim-cmp',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/vim-vsnip',
+      { 'ms-jpq/coq.artifacts', branch = 'artifacts'},
+      { 'ms-jpq/coq.thirdparty', branch = '3p'},
     },
+    setup = function()
+      local k = require('util.keymap')
+      vim.g.coq_settings = {
+        auto_start = 'shut-up',
+        keymap = {
+          recommended = false,
+        },
+      }
+    end,
     config = function()
-       local cmp = require'cmp'
+      vim.cmd [[
+        " ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+        ino <silent><expr> <Esc>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><Esc>" : "\<C-y><Esc>") : "\<Esc>"
+        ino <silent><expr> <Right>   pumvisible() ? (complete_info().selected == -1 ? "\<C-e><Right>" : "\<C-y>") : "\<Right>"
+        ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
+        ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
+        ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+        ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+        ino <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<BS>"
 
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-          end,
-        },
-        sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'vsnip' }, -- For vsnip users.
-            { name = 'buffer' },
-        }),
-        mapping = {
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif vim.fn["vsnip#available"](1) == 1 then
-              feedkey("<Plug>(vsnip-expand-or-jump)", "")
-            -- elseif has_words_before() then
-            --   cmp.complete()
-            else
-              fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
-            end
-          end, { "i", "s" }),
-
-          ["<S-Tab>"] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-              feedkey("<Plug>(vsnip-jump-prev)", "")
-            end
-          end, { "i", "s" }),
-          ['<Enter>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-          ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-          ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-          -- ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-          -- ['<C-e>'] = cmp.mapping({
-          --   i = cmp.mapping.abort(),
-          --   c = cmp.mapping.close(),
-          -- }),
-        },
-      })
-
-      -- local k = require('util.keymap')
-      -- k.imap("<tab>", function()
-      --   cmp.mapping.confirm({ select = true }) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-      --   return ''
-      -- end)
+      ]]
     end
   }
+
+  -- use {
+  --   'hrsh7th/nvim-cmp',
+  --   requires = {
+  --     'hrsh7th/cmp-nvim-lsp',
+  --     'hrsh7th/cmp-buffer',
+  --     'hrsh7th/cmp-path',
+  --     'hrsh7th/cmp-cmdline',
+  --     'hrsh7th/nvim-cmp',
+  --     'hrsh7th/cmp-vsnip',
+  --     'hrsh7th/vim-vsnip',
+  --   },
+  --   config = function()
+  --      local cmp = require'cmp'
+
+  --     cmp.setup({
+  --       snippet = {
+  --         expand = function(args)
+  --           vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+  --         end,
+  --       },
+  --       sources = cmp.config.sources({
+  --           { name = 'nvim_lsp' },
+  --           { name = 'vsnip' }, -- For vsnip users.
+  --           { name = 'buffer' },
+  --       }),
+  --       mapping = {
+  --         ["<Tab>"] = cmp.mapping(function(fallback)
+  --           if cmp.visible() then
+  --             cmp.select_next_item()
+  --           elseif vim.fn["vsnip#available"](1) == 1 then
+  --             feedkey("<Plug>(vsnip-expand-or-jump)", "")
+  --           -- elseif has_words_before() then
+  --           --   cmp.complete()
+  --           else
+  --             fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+  --           end
+  --         end, { "i", "s" }),
+
+  --         ["<S-Tab>"] = cmp.mapping(function()
+  --           if cmp.visible() then
+  --             cmp.select_prev_item()
+  --           elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+  --             feedkey("<Plug>(vsnip-jump-prev)", "")
+  --           end
+  --         end, { "i", "s" }),
+  --         ['<Enter>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  --         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+  --         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+  --         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+  --         -- ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+  --         -- ['<C-e>'] = cmp.mapping({
+  --         --   i = cmp.mapping.abort(),
+  --         --   c = cmp.mapping.close(),
+  --         -- }),
+  --       },
+  --     })
+
+  --     -- local k = require('util.keymap')
+  --     -- k.imap("<tab>", function()
+  --     --   cmp.mapping.confirm({ select = true }) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  --     --   return ''
+  --     -- end)
+  --   end
+  -- }
 
   use {
     "folke/trouble.nvim",
