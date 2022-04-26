@@ -40,11 +40,25 @@ end
 -- }
 
 nvim_lsp.sorbet.setup(coq.lsp_ensure_capabilities({
-  cmd = { "srb", "tc", "--lsp", "-vvv" },
+  cmd = { "srb", "tc", "--lsp" },
+  -- absurdly verbose logging 
+  -- cmd = { "srb", "tc", "--lsp", "-vvv" },
   root_dir = nvim_lsp.util.root_pattern("sorbet"),
   on_attach = on_attach,
   -- capabilities = capabilities,
 }))
+
+-- nvim_lsp.solargraph.setup({
+--   cmd = { "solargraph", "stdio" },
+--   filetypes = { "ruby" },
+--   init_options = { formatting = false },
+--   root_dir = nvim_lsp.util.root_pattern("Gemfile", ".git"),
+--   settings = {
+--     solargraph = {
+--       diagnostics = true
+--     }
+--   }
+-- })
 
 nvim_lsp.flow.setup(coq.lsp_ensure_capabilities({
   on_attach = on_attach,

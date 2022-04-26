@@ -98,7 +98,6 @@ vim.cmd [[
 
   " save on focus lost
   autocmd FocusLost * silent! wa
-  autocmd FileType gitcommit setlocal spell
 
   " Make .md files highlight as markdown
   autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -106,3 +105,22 @@ vim.cmd [[
   autocmd BufRead,BufNewFile *.markdown set textwidth=100
   autocmd BufNewFile,BufRead Podfile set filetype=ruby
 ]]
+
+-- Strip trailing whitespaces on save
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    { pattern = "*", command = "%s/\\s\\+$//e" }
+)
+-- Enable spell checking for certain file types
+vim.api.nvim_create_autocmd(
+{ "BufRead", "BufNewFile" },
+{
+    pattern = {
+      "*.txt",
+      "*.md",
+      "*.markdown",
+      "COMMIT_EDITMSG",
+    },
+    command = "setlocal spell spelllang=en_au",
+  }
+)

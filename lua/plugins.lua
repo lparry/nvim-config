@@ -35,6 +35,7 @@ return require('packer').startup(function()
   -- use 'slim-template/vim-slim'
   use 'onemanstartup/vim-slim'
 
+  use 'Mofiqul/trld.nvim'
   -- use 'janko/vim-test'
   -- use 'keith/swift.vim'
   -- use 'udalov/kotlin-vim'
@@ -369,6 +370,30 @@ return require('packer').startup(function()
     end
   }
 
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require'colorizer'.setup()
+    end
+
+  }
+
+  use {
+    'ggandor/lightspeed.nvim',
+    requires = {
+      'tpope/vim-repeat',
+    },
+    config = function()
+      local lightspeed = require'lightspeed'
+      lightspeed.setup {
+        ignore_case = true,
+      }
+
+      -- local k = require('util.keymap')
+      -- k.nmap('<leader>s', '<Plug>Lightspeed_s')
+      -- vim.cmd([[ unmap s ]])
+    end
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
