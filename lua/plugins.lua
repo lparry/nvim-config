@@ -47,6 +47,7 @@ return require('packer').startup(function()
   -- use 'editorconfig/editorconfig-vim'
   -- use 'gpanders/editorconfig.nvim'
   -- use 'sgur/vim-editorconfig'
+  --
 
   use {
     'lukas-reineke/indent-blankline.nvim',
@@ -113,16 +114,33 @@ return require('packer').startup(function()
     end,
   }
 
+  -- use {
+  --   'junegunn/fzf.vim',
+  --   requires = '/usr/local/opt/fzf',
+  --   config = function()
+  --     local k = require('util.keymap')
+  --     k.nnoremap('<leader>bu', ':Buffers<CR>', { silent = true })
+  --     k.nnoremap('<leader>FI', ':Files<CR>', { silent = true })
+  --     k.nnoremap('<leader>fi', ':GitFiles<CR>', { silent = true })
+  --     k.nnoremap('<leader>rw', ':exec "Rg " . expand("<cword>")<cr>', { silent = true })
+  --     k.nnoremap('<leader>rg', ':Rg ')
+  --   end,
+  -- }
+
   use {
-    'junegunn/fzf.vim',
-    requires = '/usr/local/opt/fzf',
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      {'nvim-lua/plenary.nvim'},
+      { 'nvim-telescope/telescope-live-grep-raw.nvim' },
+    },
     config = function()
+      require('telescope').load_extension('live_grep_raw')
+
       local k = require('util.keymap')
-      k.nnoremap('<leader>bu', ':Buffers<CR>', { silent = true })
-      k.nnoremap('<leader>FI', ':Files<CR>', { silent = true })
-      k.nnoremap('<leader>fi', ':GitFiles<CR>', { silent = true })
-      k.nnoremap('<leader>rw', ':exec "Rg " . expand("<cword>")<cr>', { silent = true })
-      k.nnoremap('<leader>rg', ':Rg ')
+      k.nnoremap('<leader>bu', '<cmd>Telescope buffers<cr>', { silent = true })
+      k.nnoremap('<leader>fi', '<cmd>Telescope find_files<cr>', { silent = true })
+      --k.nnoremap('<leader>fg', '<cmd>Telescope live_grep<cr>', { silent = true })
+      k.nnoremap('<leader>fg', '<cmd>lua require("telescope").extensions.live_grep_raw.live_grep_raw()<CR>', { silent = true })
     end,
   }
 

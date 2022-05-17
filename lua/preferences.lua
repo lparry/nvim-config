@@ -33,8 +33,8 @@ vim.o.cc = "100"
 -- fold based on syntax
 vim.o.foldmethod = "syntax"
 
--- turn on undofile for heaps long undos
-vim.o.undofile = true
+-- turn off undofile so undo doesn't go back past when you opened the file
+vim.o.undofile = false
 
 -- start with folds disabled (enabled with zc)
 vim.o.foldenable = false
@@ -113,14 +113,14 @@ vim.api.nvim_create_autocmd(
 )
 -- Enable spell checking for certain file types
 vim.api.nvim_create_autocmd(
-{ "BufRead", "BufNewFile" },
-{
-    pattern = {
-      "*.txt",
-      "*.md",
-      "*.markdown",
-      "COMMIT_EDITMSG",
-    },
-    command = "setlocal spell spelllang=en_au",
+  { "BufRead", "BufNewFile" },
+  {
+      pattern = {
+        "*.txt",
+        "*.md",
+        "*.markdown",
+        "COMMIT_EDITMSG",
+      },
+      command = "setlocal spell spelllang=en_au",
   }
 )

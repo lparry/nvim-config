@@ -41,7 +41,7 @@ end
 
 nvim_lsp.sorbet.setup(coq.lsp_ensure_capabilities({
   cmd = { "srb", "tc", "--lsp" },
-  -- absurdly verbose logging 
+  -- absurdly verbose logging
   -- cmd = { "srb", "tc", "--lsp", "-vvv" },
   root_dir = nvim_lsp.util.root_pattern("sorbet"),
   on_attach = on_attach,
@@ -113,16 +113,10 @@ nvim_lsp.diagnosticls.setup {
       bash = { "shellcheck" },
       zsh = { "shellcheck" },
     },
-    formatFiletypes = {
-      javascript = 'prettier',
-      typescript = 'prettier',
-      typescriptreact = 'prettier',
-      ruby = { "rubocop", "prettier" }
-    },
     linters = {
       eslint = {
         sourceName = "eslint",
-        command = "./node_modules/.bin/eslint",
+        command = "eslint_d",
         rootPatterns = { ".eslintrc", ".eslintrc.js", ".eslintrc.json" },
         args = {
           "--stdin",
@@ -194,12 +188,24 @@ nvim_lsp.diagnosticls.setup {
         },
       },
     },
+    formatFiletypes = {
+      javascript = 'prettier',
+      typescript = 'prettier',
+      typescriptreact = { "eslint_d", "prettier" },
+      ruby = { "rubocop", "prettier" }
+    },
     formatters = {
+      eslint_d = {
+        command = "eslint_d",
+        args = { "--stdin", "--fix-to-stdout", "--stdin-filename", "%filepath" },
+        isStdout = true,
+        doesWriteToFile = false,
+      },
       prettier = {
         command = './node_modules/.bin/prettier',
         rootPatterns = { ".prettierrc.json", ".prettierrc" },
         args = { '--stdin-filepath', '%filename' },
-      }
+      },
     }
   },
 }
