@@ -189,9 +189,9 @@ nvim_lsp.diagnosticls.setup {
       },
     },
     formatFiletypes = {
-      javascript = 'prettier',
-      typescript = 'prettier',
-      typescriptreact = { "eslint_d", "prettier" },
+      javascript = { "prettier","eslint_d" },
+      typescript = { "prettier","eslint_d" },
+      typescriptreact = { "prettier","eslint_d" },
       ruby = { "rubocop", "prettier" }
     },
     formatters = {

@@ -124,3 +124,15 @@ vim.api.nvim_create_autocmd(
       command = "setlocal spell spelllang=en_au",
   }
 )
+
+local diagnostics_active = true
+local toggle_diagnostics = function()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    vim.diagnostic.show()
+  else
+    vim.diagnostic.hide()
+  end
+end
+
+vim.keymap.set('n', '<leader>d', toggle_diagnostics)

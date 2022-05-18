@@ -90,8 +90,7 @@ return require('packer').startup(function()
   use {
     'ruby-formatter/rufo-vim',
     config = function()
-      local k = require('util.keymap')
-      k.nnoremap('<leader>rf', ':Rufo<cr>')
+      vim.keymap.set('n', '<leader>rf', ':Rufo<cr>')
     end
   }
   -- use 'romainl/vim-qf'
@@ -118,12 +117,11 @@ return require('packer').startup(function()
   --   'junegunn/fzf.vim',
   --   requires = '/usr/local/opt/fzf',
   --   config = function()
-  --     local k = require('util.keymap')
-  --     k.nnoremap('<leader>bu', ':Buffers<CR>', { silent = true })
-  --     k.nnoremap('<leader>FI', ':Files<CR>', { silent = true })
-  --     k.nnoremap('<leader>fi', ':GitFiles<CR>', { silent = true })
-  --     k.nnoremap('<leader>rw', ':exec "Rg " . expand("<cword>")<cr>', { silent = true })
-  --     k.nnoremap('<leader>rg', ':Rg ')
+  --     vim.keymap.set('n', '<leader>bu', ':Buffers<CR>', { silent = true })
+  --     vim.keymap.set('n', '<leader>FI', ':Files<CR>', { silent = true })
+  --     vim.keymap.set('n', '<leader>fi', ':GitFiles<CR>', { silent = true })
+  --     vim.keymap.set('n', '<leader>rw', ':exec "Rg " . expand("<cword>")<cr>', { silent = true })
+  --     vim.keymap.set('n', '<leader>rg', ':Rg ')
   --   end,
   -- }
 
@@ -136,11 +134,10 @@ return require('packer').startup(function()
     config = function()
       require('telescope').load_extension('live_grep_raw')
 
-      local k = require('util.keymap')
-      k.nnoremap('<leader>bu', '<cmd>Telescope buffers<cr>', { silent = true })
-      k.nnoremap('<leader>fi', '<cmd>Telescope find_files<cr>', { silent = true })
-      --k.nnoremap('<leader>fg', '<cmd>Telescope live_grep<cr>', { silent = true })
-      k.nnoremap('<leader>fg', '<cmd>lua require("telescope").extensions.live_grep_raw.live_grep_raw()<CR>', { silent = true })
+      vim.keymap.set('n', '<leader>bu', '<cmd>Telescope buffers<cr>', { silent = true })
+      vim.keymap.set('n', '<leader>fi', '<cmd>Telescope find_files<cr>', { silent = true })
+      --vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { silent = true })
+      vim.keymap.set('n', '<leader>fg', '<cmd>lua require("telescope").extensions.live_grep_raw.live_grep_raw()<CR>', { silent = true })
     end,
   }
 
@@ -166,7 +163,6 @@ return require('packer').startup(function()
       { 'ms-jpq/coq.thirdparty', branch = '3p'},
     },
     setup = function()
-      local k = require('util.keymap')
       vim.g.coq_settings = {
         auto_start = 'shut-up',
         keymap = {
@@ -246,8 +242,7 @@ return require('packer').startup(function()
   --       },
   --     })
 
-  --     -- local k = require('util.keymap')
-  --     -- k.imap("<tab>", function()
+  --     -- vim.keymap.set('i', "<tab>", function()
   --     --   cmp.mapping.confirm({ select = true }) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   --     --   return ''
   --     -- end)
@@ -274,21 +269,20 @@ return require('packer').startup(function()
         use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
       }
 
-      local k = require('util.keymap')
-      -- k.nnoremap("<leader>xx", "<cmd>Trouble<cr>", { silent = true })
-      -- k.nnoremap("<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true })
-      -- k.nnoremap("<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true })
-      -- k.nnoremap("<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true })
-      -- k.nnoremap("<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true })
-      -- k.nnoremap("gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true })
-      -- k.nnoremap("gd", "<cmd>TroubleToggle lsp_definitions<cr>", { silent = true })
+      -- vim.keymap.set('n', "<leader>xx", "<cmd>Trouble<cr>", { silent = true })
+      -- vim.keymap.set('n', "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true })
+      -- vim.keymap.set('n', "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true })
+      -- vim.keymap.set('n', "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true })
+      -- vim.keymap.set('n', "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true })
+      -- vim.keymap.set('n', "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true })
+      -- vim.keymap.set('n', "gd", "<cmd>TroubleToggle lsp_definitions<cr>", { silent = true })
 
-      k.nnoremap('<leader>an', function()
+      vim.keymap.set('n', '<leader>an', function()
         require("trouble").next({skip_groups = true, jump = true});
         return ''
       end)
 
-      k.nnoremap('<leader>ap', function()
+      vim.keymap.set('n', '<leader>ap', function()
         require("trouble").previous({skip_groups = true, jump = true});
         return ''
       end)
@@ -407,9 +401,8 @@ return require('packer').startup(function()
         ignore_case = true,
       }
 
-      -- local k = require('util.keymap')
-      -- k.nmap('<leader>s', '<Plug>Lightspeed_s')
-      -- vim.cmd([[ unmap s ]])
+      -- vim.keymap.set('n', '<leader>s', '<Plug>Lightspeed_s')
+      -- vim.keymap.del('s')
     end
   }
 
