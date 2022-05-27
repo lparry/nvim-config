@@ -93,8 +93,6 @@ return require('packer').startup(function()
       vim.keymap.set('n', '<leader>rf', ':Rufo<cr>')
     end
   }
-  -- use 'romainl/vim-qf'
-
 
   ----" Colorschemes
   --use 'nanotech/jellybeans.vim'
@@ -289,6 +287,10 @@ return require('packer').startup(function()
     end
   }
 
+  -- use {
+  -- 'rebelot/heirline.nvim',
+  -- }
+
   use {
     'hoob3rt/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons'},
@@ -423,4 +425,3 @@ return require('packer').startup(function()
 
 
 end)
-

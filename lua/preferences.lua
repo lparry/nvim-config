@@ -111,6 +111,19 @@ vim.api.nvim_create_autocmd(
     "BufWritePre",
     { pattern = "*", command = "%s/\\s\\+$//e" }
 )
+
+-- Strip double blank lines in ruby on save
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    { pattern = "*.rb", command = "%s/\\n\\n\\n\\+/\r\r/e" }
+)
+
+-- Strip eof newlines
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    { pattern = "*", command = "%s/\\n\\+\\%$//e" }
+)
+
 -- Enable spell checking for certain file types
 vim.api.nvim_create_autocmd(
   { "BufRead", "BufNewFile" },
